@@ -1,11 +1,14 @@
 // solarisengine-website/app/page.js
+'use client'; // Keep this line at the very top!
 
 import Image from 'next/image';
+import { AnimatedSection } from '../components/AnimatedSection'; // Adjust path if using src/
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-gray-950 font-sans text-gray-100 antialiased">
       {/* --- Navbar (Basic) --- */}
+      {/* Navbar typically doesn't need to be animated on scroll */}
       <nav className="bg-gray-900 p-4 shadow-lg">
         <div className="container mx-auto flex items-center justify-between">
           <a href="#" className="text-2xl font-bold text-purple-400">Solaris Engine LLC</a>
@@ -18,6 +21,7 @@ export default function Home() {
       </nav>
 
       {/* --- Hero Section --- */}
+      {/* Hero is usually visible immediately, so no scroll animation needed */}
       <section className="bg-gradient-to-r from-purple-800 to-fuchsia-900 py-20 text-white text-center">
         <div className="container mx-auto px-4">
           <h1 className="mb-6 text-5xl font-extrabold leading-tight">
@@ -37,7 +41,7 @@ export default function Home() {
       </section>
 
       {/* --- Problem / Pain Points Section --- */}
-      <section id="problems" className="py-16 text-center bg-gray-950">
+      <AnimatedSection id="problems" className="py-16 text-center bg-gray-950">
         <div className="container mx-auto px-4">
           <h2 className="mb-12 text-4xl font-bold text-gray-100">Are You Facing These Challenges?</h2>
           <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
@@ -55,10 +59,10 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* --- Solution / What We Do Section --- */}
-      <section id="services" className="bg-gray-800 py-16">
+      <AnimatedSection id="services" className="bg-gray-800 py-16">
         <div className="container mx-auto px-4 text-center">
           <h2 className="mb-12 text-4xl font-bold text-gray-100">Our AI-Driven Automation Solutions</h2>
           <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
@@ -79,10 +83,10 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* --- How It Works / Our Process Section --- */}
-      <section id="process" className="py-16 text-center bg-gray-950">
+      <AnimatedSection id="process" className="py-16 text-center bg-gray-950">
         <div className="container mx-auto px-4">
           <h2 className="mb-12 text-4xl font-bold text-gray-100">Our Simple 3-Step Process</h2>
           <div className="flex flex-col items-center justify-center space-y-12 md:flex-row md:space-x-12 md:space-y-0">
@@ -103,10 +107,10 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* --- Benefits / Why Choose Us Section --- */}
-      <section id="benefits" className="bg-gradient-to-r from-purple-800 to-fuchsia-900 py-16 text-white">
+      <AnimatedSection id="benefits" className="bg-gradient-to-r from-purple-800 to-fuchsia-900 py-16 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="mb-12 text-4xl font-bold">Why Solaris Engine?</h2>
           <ul className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -136,10 +140,10 @@ export default function Home() {
             </li>
           </ul>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* --- Testimonials Section (Placeholder) --- */}
-      <section id="testimonials" className="py-16 text-center bg-gray-950">
+      <AnimatedSection id="testimonials" className="py-16 text-center bg-gray-950">
         <div className="container mx-auto px-4">
           <h2 className="mb-12 text-4xl font-bold text-gray-100">What Our Clients Say</h2>
           <div className="max-w-3xl mx-auto italic text-gray-300">
@@ -150,10 +154,10 @@ export default function Home() {
           </div>
           {/* Add more testimonials as you gather them */}
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* --- Contact / CTA Section --- */}
-      <section id="contact" className="bg-gray-900 py-16">
+      <AnimatedSection id="contact" className="bg-gray-900 py-16">
         <div className="container mx-auto px-4 text-center">
           <h2 className="mb-8 text-4xl font-bold text-gray-100">Ready to Transform Your Business?</h2>
           <p className="mb-10 text-xl text-gray-300">
@@ -167,9 +171,10 @@ export default function Home() {
           </a>
           {/* You might want a full contact form here later */}
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* --- Footer --- */}
+      {/* Footer typically doesn't need animation */}
       <footer className="bg-gray-800 py-8 text-center text-gray-400">
         <div className="container mx-auto px-4">
           <p>&copy; {new Date().getFullYear()} Solaris Engine LLC. All rights reserved.</p>
