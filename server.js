@@ -4,21 +4,37 @@ import sgMail from '@sendgrid/mail';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { json } from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+// Load environment variables
 dotenv.config();
 
+// Setup SendGrid
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
+// Initialize Express
 const app = express();
 app.use(cors());
 app.use(json());
 
+// Serve frontend (from client/dist)
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const clientBuildPath = path.join(__dirname, 'client', 'dist');
+
+app.use(express.static(clientBuildPath));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(clientBuildPath, 'index.html'));
+});
+
+// API Route
 app.post('/api/contact', async (req, res) => {
   const { name, email, company, details } = req.body;
 
   const msg = {
-    to: 'bruno@solarisengine.com', // Change to your recipient
-    from: process.env.SENDGRID_FROM, // Must be a verified sender in SendGrid
+    to: 'bruno@solarisengine.com',
+    from: process.env.SENDGRID_FROM,
     subject: 'New Contact Form Submission',
     text: `Name: ${name}\nEmail: ${email}\nCompany: ${company}\nDetails: ${details}`,
     replyTo: email,
@@ -32,4 +48,11 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
-app.listen(5000, () => console.log('Server running on port 5000'));
+// Fallback to index.html for client-side routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(clientBuildPath, 'index.html'));
+});
+
+// Use Azure-provided port or default to 5000
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
