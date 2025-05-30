@@ -1,3 +1,4 @@
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.css';
 import BenefitsSection from './components/BenefitsSection';
 import ContactSection from './components/ContactSection';
@@ -8,6 +9,8 @@ import ProblemsSection from './components/ProblemsSection';
 import ProcessSection from './components/ProcessSection';
 import ServicesSection from './components/ServicesSection';
 import TestimonialsSection from './components/TestimonialsSection';
+import AboutUs from './pages/AboutUs';
+import NotFound from './pages/NotFound';
 
 function App() {
   const handleSmoothScroll = (sectionId) => (e) => {
@@ -19,17 +22,30 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 font-sans text-gray-100 antialiased">
-      <Navbar handleSmoothScroll={handleSmoothScroll} />
-      <HeroSection handleSmoothScroll={handleSmoothScroll} />
-      <ProblemsSection />
-      <ServicesSection />
-      <ProcessSection />
-      <BenefitsSection />
-      <TestimonialsSection />
-      <ContactSection />
-      <Footer />
-    </div>
+    <Router>
+      <div className="min-h-screen bg-gray-950 font-sans text-gray-100 antialiased">
+        <Navbar handleSmoothScroll={handleSmoothScroll} />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <HeroSection handleSmoothScroll={handleSmoothScroll} />
+                <ProblemsSection />
+                <ServicesSection />
+                <ProcessSection />
+                <BenefitsSection />
+                <TestimonialsSection />
+                <ContactSection />
+                <Footer />
+              </>
+            }
+          />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

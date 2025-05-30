@@ -58,7 +58,13 @@ export default function ContactSection() {
   return (
     <AnimatedSection id="contact" className="bg-gray-900 py-16">
       <div className="container mx-auto px-4 text-center">
-        {/* ...heading... */}
+        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-purple-400">
+          Contact Us
+        </h2>
+        <p className="mb-8 text-lg text-gray-300">
+          Have a challenge or idea? Let’s talk about how automation and AI can
+          help your business.
+        </p>
         <form
           onSubmit={handleSubmit}
           className="mx-auto mb-8 max-w-xl rounded-lg bg-gray-800 p-8 shadow-lg"

@@ -1,12 +1,60 @@
-# React + Vite
+# Solaris Engine Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the official website for **Solaris Engine**, a boutique consultancy focused on helping organizations unlock efficiency and innovation through practical automation and AI solutions.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Frontend:** React + Vite + Tailwind CSS
+- **Backend:** Node.js + Express + SendGrid (for contact form)
+- **Routing:** React Router DOM
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Responsive landing page with smooth scroll navigation
+- Contact form with SendGrid email integration
+- About Us page with team bios
+- Custom 404 "nerdy" page
+- Mobile-friendly hamburger menu
+- Nerdy/techy branding and fonts
+
+## Getting Started
+
+### 1. Install dependencies
+
+```sh
+npm install
+```
+
+### 2. Start the development server
+
+```sh
+npm run dev
+```
+
+### 3. Start the backend server
+
+```sh
+node server.js
+```
+
+### 4. Environment Variables
+
+Create a `.env` file in the root with:
+
+```
+SENDGRID_API_KEY=your_sendgrid_api_key
+SENDGRID_FROM=your_verified_sender@domain.com
+```
+
+## Customization
+
+- **Fonts:** Uses [ProggyClean Nerd Font](https://github.com/ryanoasis/nerd-fonts) for the logo. Place the font in `/public/fonts` and ensure it is loaded in your CSS.
+- **Contact Form:** Update recipient and sender emails in `server.js` and `.env`.
+
+## Credits
+
+Built by Bruno Araujo and Gabriel Alonso.
+
+---
+
+*This project was bootstrapped with [Vite](https://vitejs.dev/) and uses [React](https://react.dev/).*

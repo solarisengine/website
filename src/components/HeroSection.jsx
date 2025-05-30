@@ -9,9 +9,8 @@ export default function HeroSection({ handleSmoothScroll }) {
             Supercharge Your Business Growth with AI-Driven Automation
           </h1>
           <p className="mb-8 text-xl opacity-90">
-            Empowering small to medium companies worldwide with intelligent
-            solutions for lead generation, follow-up, and operational
-            efficiency.
+            Empowering companies worldwide with intelligent solutions for lead
+            generation, follow-up, and operational efficiency.
           </p>
           <a
             onClick={handleSmoothScroll('contact')}
