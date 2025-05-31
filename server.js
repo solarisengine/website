@@ -24,6 +24,17 @@ const clientBuildPath = path.join(__dirname, 'client', 'dist');
 
 app.use(express.static(clientBuildPath));
 
+app.use((req, res, next) => {
+  if (
+    req.hostname === 'solarisengine.com' ||
+    req.hostname === 'solarisengine.ai' ||
+    req.hostname === 'www.solarisengine.ai'
+  ) {
+    return res.redirect(301, `https://www.solarisengine.com${req.url}`);
+  }
+  next();
+});
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(clientBuildPath, 'index.html'));
 });
@@ -33,7 +44,7 @@ app.post('/api/contact', async (req, res) => {
   const { name, email, company, details } = req.body;
 
   const msg = {
-    to: 'bruno@solarisengine.com',
+    to: process.env.SENDGRID_TO,
     from: process.env.SENDGRID_FROM,
     subject: 'New Contact Form Submission',
     text: `Name: ${name}\nEmail: ${email}\nCompany: ${company}\nDetails: ${details}`,
