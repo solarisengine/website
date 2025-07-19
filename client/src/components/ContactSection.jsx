@@ -31,8 +31,10 @@ export default function ContactSection() {
     setIsSubmitting(true);
     setStatus('');
     setStatusType('');
+
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
+      // Use your secure backend API
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -40,6 +42,7 @@ export default function ContactSection() {
         },
         body: JSON.stringify(form),
       });
+
       if (response.ok) {
         setStatus('Thank you! Your message has been sent.');
         setStatusType('success');
@@ -48,7 +51,8 @@ export default function ContactSection() {
         setStatus('Something went wrong. Please try again.');
         setStatusType('error');
       }
-    } catch {
+    } catch (error) {
+      console.error('Contact form error:', error);
       setStatus('Something went wrong. Please try again.');
       setStatusType('error');
     }
