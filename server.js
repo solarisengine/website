@@ -44,9 +44,13 @@ app.post('/api/contact', async (req, res) => {
   const { name, email, company, details } = req.body;
 
   const msg = {
-    to: [process.env.SENDGRID_TO_GABRIEL, process.env.SENDGRID_TO_BRUNO],
+    to: [
+      process.env.SENDGRID_TO_GABRIEL,
+      process.env.SENDGRID_TO_BRUNO,
+      process.env.SENDGRID_TO_CASEY,
+    ],
     from: process.env.SENDGRID_FROM,
-    subject: 'New Contact Form Submission',
+    subject: 'Inbound Lead',
     text: `Name: ${name}\nEmail: ${email}\nCompany: ${company}\nDetails: ${details}`,
     replyTo: email,
   };

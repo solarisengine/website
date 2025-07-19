@@ -6,13 +6,21 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "build": "cd client && npm install && npm run build"
+    "build": "cd client && npm install && npm run build",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "node server.js",
+    "client": "cd client && npm run dev",
+    "ic": "cd client && npm install",
+    "ia": "npm install && cd client && npm install"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.7.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.1",
     "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0"
   },
   "engines": {
     "node": "22.x"
