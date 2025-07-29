@@ -60,9 +60,17 @@ export default function ContactSection() {
   };
 
   return (
-    <AnimatedSection id="contact" className="bg-gray-900 py-16">
-      <div className="container mx-auto px-4 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-purple-400">
+    <AnimatedSection
+      id="contact"
+      className="bg-slate-900 py-16 relative overflow-hidden"
+    >
+      {/* Cosmic background elements */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute top-10 right-10 w-40 h-40 bg-orange-500 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 left-10 w-32 h-32 bg-yellow-400 rounded-full blur-2xl"></div>
+      </div>
+      <div className="container mx-auto px-4 text-center relative z-10">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent">
           Contact Us
         </h2>
         <p className="mb-8 text-lg text-gray-300">
@@ -71,7 +79,7 @@ export default function ContactSection() {
         </p>
         <form
           onSubmit={handleSubmit}
-          className="mx-auto mb-8 max-w-xl rounded-lg bg-gray-800 p-8 shadow-lg"
+          className="mx-auto mb-8 max-w-xl rounded-lg bg-slate-800/80 backdrop-blur-sm p-8 shadow-lg border border-blue-800/30"
         >
           {status && (
             <div
@@ -103,7 +111,7 @@ export default function ContactSection() {
               Name
             </label>
             <input
-              className="w-full rounded px-4 py-2 bg-gray-700 text-white focus:outline-none"
+              className="w-full rounded px-4 py-2 bg-slate-700/80 backdrop-blur-sm text-white focus:outline-none focus:ring-2 focus:ring-orange-400 border border-slate-600/50"
               type="text"
               id="name"
               name="name"
@@ -119,7 +127,7 @@ export default function ContactSection() {
               Email
             </label>
             <input
-              className="w-full rounded px-4 py-2 bg-gray-700 text-white focus:outline-none"
+              className="w-full rounded px-4 py-2 bg-slate-700/80 backdrop-blur-sm text-white focus:outline-none focus:ring-2 focus:ring-orange-400 border border-slate-600/50"
               type="email"
               id="email"
               name="email"
@@ -135,7 +143,7 @@ export default function ContactSection() {
               Company
             </label>
             <input
-              className="w-full rounded px-4 py-2 bg-gray-700 text-white focus:outline-none"
+              className="w-full rounded px-4 py-2 bg-slate-700/80 backdrop-blur-sm text-white focus:outline-none focus:ring-2 focus:ring-orange-400 border border-slate-600/50"
               type="text"
               id="company"
               name="company"
@@ -150,7 +158,7 @@ export default function ContactSection() {
               What problem are you facing or what would you like to automate?
             </label>
             <textarea
-              className="w-full rounded px-4 py-2 bg-gray-700 text-white focus:outline-none"
+              className="w-full rounded px-4 py-2 bg-slate-700/80 backdrop-blur-sm text-white focus:outline-none focus:ring-2 focus:ring-orange-400 border border-slate-600/50"
               id="details"
               name="details"
               rows="4"
@@ -166,7 +174,7 @@ export default function ContactSection() {
             className={`w-full rounded-full px-10 py-4 text-lg font-semibold text-white transition duration-300 ${
               isSubmitting
                 ? 'bg-gray-500 cursor-not-allowed'
-                : 'bg-purple-600 hover:bg-purple-700'
+                : 'bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-400 hover:to-yellow-400 shadow-lg hover:shadow-xl transform hover:scale-105'
             }`}
             disabled={isSubmitting}
           >

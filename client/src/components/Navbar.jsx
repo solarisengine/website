@@ -7,11 +7,11 @@ export default function Navbar({ handleSmoothScroll }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-gray-900 p-4 shadow-lg">
+    <nav className="bg-slate-900/95 backdrop-blur-sm p-4 shadow-lg border-b border-blue-800/30">
       <div className="container mx-auto flex items-center justify-between">
         <Link
           to="/"
-          className="text-2xl md:text-4xl font-bold text-purple-400 tracking-wider"
+          className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent tracking-wider"
           style={{
             fontFamily: "'ProggyClean Nerd Font', 'monospace'",
             letterSpacing: '0.08em',
@@ -26,24 +26,27 @@ export default function Navbar({ handleSmoothScroll }) {
               <a
                 onClick={handleSmoothScroll('services')}
                 style={{ cursor: 'pointer' }}
-                className="text-gray-300 hover:text-purple-400"
+                className="text-gray-300 hover:text-orange-400 transition-colors duration-300"
               >
                 Services
               </a>
-              <Link to="/about" className="text-gray-300 hover:text-purple-400">
+              <Link
+                to="/about"
+                className="text-gray-300 hover:text-orange-400 transition-colors duration-300"
+              >
                 About Us
               </Link>
               <a
                 onClick={handleSmoothScroll('contact')}
                 style={{ cursor: 'pointer' }}
-                className="text-gray-300 hover:text-purple-400"
+                className="text-gray-300 hover:text-orange-400 transition-colors duration-300"
               >
                 Contact
               </a>
             </div>
             {/* Hamburger for mobile */}
             <button
-              className="md:hidden text-gray-300 hover:text-purple-400 focus:outline-none"
+              className="md:hidden text-gray-300 hover:text-orange-400 focus:outline-none transition-colors duration-300"
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label="Open menu"
             >
@@ -63,20 +66,20 @@ export default function Navbar({ handleSmoothScroll }) {
             </button>
             {/* Mobile menu */}
             {menuOpen && (
-              <div className="absolute top-16 left-0 w-full bg-gray-900 z-50 flex flex-col items-center py-4 space-y-2 shadow-lg md:hidden">
+              <div className="absolute top-16 left-0 w-full bg-slate-900/98 backdrop-blur-sm z-50 flex flex-col items-center py-4 space-y-2 shadow-lg border-b border-blue-800/30 md:hidden">
                 <a
                   onClick={(e) => {
                     handleSmoothScroll('services')(e);
                     setMenuOpen(false);
                   }}
-                  className="text-gray-300 hover:text-purple-400 text-lg"
+                  className="text-gray-300 hover:text-orange-400 text-lg transition-colors duration-300"
                   style={{ cursor: 'pointer' }}
                 >
                   Services
                 </a>
                 <Link
                   to="/about"
-                  className="text-gray-300 hover:text-purple-400 text-lg"
+                  className="text-gray-300 hover:text-orange-400 text-lg transition-colors duration-300"
                   onClick={() => setMenuOpen(false)}
                 >
                   About Us
@@ -86,7 +89,7 @@ export default function Navbar({ handleSmoothScroll }) {
                     handleSmoothScroll('contact')(e);
                     setMenuOpen(false);
                   }}
-                  className="text-gray-300 hover:text-purple-400 text-lg"
+                  className="text-gray-300 hover:text-orange-400 text-lg transition-colors duration-300"
                   style={{ cursor: 'pointer' }}
                 >
                   Contact
@@ -96,7 +99,10 @@ export default function Navbar({ handleSmoothScroll }) {
           </>
         ) : (
           <div className="flex space-x-4">
-            <Link to="/" className="text-gray-300 hover:text-purple-400">
+            <Link
+              to="/"
+              className="text-gray-300 hover:text-orange-400 transition-colors duration-300"
+            >
               Home
             </Link>
           </div>

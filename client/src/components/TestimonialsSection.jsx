@@ -6,7 +6,7 @@ export default function TestimonialsSection() {
       {/* --- Testimonials Section (Placeholder) --- */}
       <AnimatedSection
         id="testimonials"
-        className="py-16 text-center bg-gray-950"
+        className="py-16 text-center bg-slate-950 relative overflow-hidden"
       >
         <div className="container mx-auto px-4">
           <h2 className="mb-12 text-4xl font-bold text-gray-100">

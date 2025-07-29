@@ -23,7 +23,7 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen bg-gray-950 font-sans text-gray-100 antialiased">
+      <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-950 to-indigo-950 font-sans text-gray-100 antialiased">
         <Navbar handleSmoothScroll={handleSmoothScroll} />
         <Routes>
           <Route
