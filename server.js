@@ -101,12 +101,39 @@ app.post('/api/contact', async (req, res) => {
     console.log('Attempting to send email via SendGrid...');
     const result = await sgMail.send(msg);
     console.log('Email sent successfully:', result[0].statusCode);
-    res.status(200).json({ message: 'Email sent successfully' });
+    res.status(200).json({ message: 'Thank you! Your message has been sent successfully.' });
   } catch (err) {
     console.error('SendGrid error:', err);
     console.error('Error details:', err.response?.body || err.message);
+    
+    // Check if it's a credits/quota exceeded error
+    const isQuotaExceeded = 
+      err.message?.includes('Maximum credits exceeded') ||
+      err.message?.includes('quota') ||
+      err.response?.body?.errors?.some(e => 
+        e.message?.includes('Maximum credits exceeded') || 
+        e.message?.includes('quota')
+      );
+
+    if (isQuotaExceeded) {
+      // Log the inquiry so you don't lose the lead
+      console.log('=== CONTACT FORM SUBMISSION (SendGrid Quota Exceeded) ===');
+      console.log(`Name: ${name}`);
+      console.log(`Email: ${email}`);
+      console.log(`Company: ${company || 'Not provided'}`);
+      console.log(`Details: ${details}`);
+      console.log(`Timestamp: ${new Date().toLocaleString()}`);
+      console.log('========================================================');
+      
+      // Still return success to user - they don't need to know about quota issues
+      return res.status(200).json({ 
+        message: 'Thank you! Your message has been received and we will get back to you soon.' 
+      });
+    }
+    
+    // For other errors, return the original error handling
     res.status(500).json({
-      message: 'Failed to send email',
+      message: 'There was an issue sending your message. Please try again later.',
       error:
         process.env.NODE_ENV === 'development'
           ? err.message

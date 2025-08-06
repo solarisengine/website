@@ -31,12 +31,6 @@ export default function Navbar({ handleSmoothScroll }) {
                 Services
               </a>
               <Link
-                to="/blog"
-                className="text-gray-300 hover:text-orange-400 transition-colors duration-300"
-              >
-                Blog
-              </Link>
-              <Link
                 to="/about"
                 className="text-gray-300 hover:text-orange-400 transition-colors duration-300"
               >
@@ -84,13 +78,6 @@ export default function Navbar({ handleSmoothScroll }) {
                   Services
                 </a>
                 <Link
-                  to="/blog"
-                  className="text-gray-300 hover:text-orange-400 text-lg transition-colors duration-300"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  Blog
-                </Link>
-                <Link
                   to="/about"
                   className="text-gray-300 hover:text-orange-400 text-lg transition-colors duration-300"
                   onClick={() => setMenuOpen(false)}
@@ -117,12 +104,6 @@ export default function Navbar({ handleSmoothScroll }) {
               className="text-gray-300 hover:text-orange-400 transition-colors duration-300"
             >
               Home
-            </Link>
-            <Link
-              to="/blog"
-              className="text-gray-300 hover:text-orange-400 transition-colors duration-300"
-            >
-              Blog
             </Link>
           </div>
         )}

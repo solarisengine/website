@@ -1,11 +1,124 @@
-import React from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
-import ReactMarkdown from 'react-markdown';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { format } from 'date-fns';
-import { AnimatedSection } from '../../components/AnimatedSection';
+import { Helmet } from 'react-helmet-async';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import automation from '../../../public/automation.png';
+
+
+// Custom markdown renderer for React 19 compatibility
+const MarkdownRenderer = ({ content }) => {
+  const renderMarkdown = (text) => {
+    // Split content into sections
+    const sections = text.split('\n\n');
+    
+    return sections.map((section, index) => {
+      // Headers
+      if (section.startsWith('# ')) {
+        return (
+          <h1 key={index} className="text-3xl md:text-4xl font-bold text-white mb-6 mt-8">
+            {section.replace('# ', '')}
+          </h1>
+        );
+      }
+      
+      if (section.startsWith('## ')) {
+        return (
+          <h2 key={index} className="text-2xl md:text-3xl font-bold text-white mb-4 mt-8">
+            {section.replace('## ', '')}
+          </h2>
+        );
+      }
+      
+      if (section.startsWith('### ')) {
+        return (
+          <h3 key={index} className="text-xl md:text-2xl font-bold text-orange-400 mb-3 mt-6">
+            {section.replace('### ', '')}
+          </h3>
+        );
+      }
+      
+      // Code blocks
+      if (section.startsWith('```')) {
+        const codeContent = section.replace(/```[\w]*\n?/, '').replace(/\n?```$/, '');
+        return (
+          <div key={index} className="bg-gray-900 border border-orange-400/30 rounded-lg p-4 mb-6 overflow-x-auto">
+            <pre className="text-gray-300 text-sm">
+              <code>{codeContent}</code>
+            </pre>
+          </div>
+        );
+      }
+      
+      // Lists - improved handling
+      if (section.includes('- **') || section.includes('- ')) {
+        const listItems = section.split('\n').filter(line => line.trim().startsWith('- '));
+        return (
+          <ul key={index} className="list-disc list-inside text-gray-300 mb-4 space-y-2 ml-4">
+            {listItems.map((item, i) => {
+              const cleanItem = item.replace('- ', '');
+              // Handle bold text properly
+              const parts = cleanItem.split(/(\*\*.*?\*\*)/g);
+              return (
+                <li key={i} className="text-gray-300">
+                  {parts.map((part, j) => {
+                    if (part.startsWith('**') && part.endsWith('**')) {
+                      return (
+                        <strong key={j} className="text-orange-400 font-semibold">
+                          {part.slice(2, -2)}
+                        </strong>
+                      );
+                    }
+                    return part;
+                  })}
+                </li>
+              );
+            })}
+          </ul>
+        );
+      }
+      
+      // Regular paragraphs - improved handling
+      if (section.trim()) {
+        const parts = section.split(/(\*\*.*?\*\*|`[^`]+`|\*.*?\*)/g);
+        
+        return (
+          <p key={index} className="text-gray-300 mb-4 leading-relaxed">
+            {parts.map((part, i) => {
+              // Bold text
+              if (part.startsWith('**') && part.endsWith('**')) {
+                return (
+                  <strong key={i} className="text-orange-400 font-semibold">
+                    {part.slice(2, -2)}
+                  </strong>
+                );
+              }
+              // Inline code
+              if (part.startsWith('`') && part.endsWith('`')) {
+                return (
+                  <code key={i} className="bg-orange-500/20 text-orange-300 px-1 py-0.5 rounded text-sm">
+                    {part.slice(1, -1)}
+                  </code>
+                );
+              }
+              // Italic text
+              if (part.startsWith('*') && part.endsWith('*') && !part.startsWith('**')) {
+                return (
+                  <em key={i} className="text-gray-200">
+                    {part.slice(1, -1)}
+                  </em>
+                );
+              }
+              return part;
+            })}
+          </p>
+        );
+      }
+      
+      return null;
+    }).filter(Boolean);
+  };
+
+  return <div>{renderMarkdown(content)}</div>;
+};
 
 // Mock blog posts data - in a real app, this would come from your CMS or markdown files
 const blogPosts = {
@@ -18,7 +131,7 @@ const blogPosts = {
     date: new Date('2025-01-15'),
     readTime: '8 min read',
     category: 'AI & Automation',
-    image: '/api/placeholder/800/400',
+    image: automation,
     content: `# How AI-Driven Automation is Transforming Modern Businesses
 
 In today's rapidly evolving business landscape, artificial intelligence and automation technologies are no longer futuristic concepts—they're essential tools for staying competitive. Companies across all industries are discovering how AI-driven automation can streamline operations, reduce costs, and unlock new opportunities for growth.
@@ -1293,86 +1406,6 @@ The future belongs to those who can successfully navigate this transition, creat
   },
 };
 
-// Custom components for markdown rendering
-const MarkdownComponents = {
-  code({ node, inline, className, children, ...props }) {
-    const match = /language-(\w+)/.exec(className || '');
-    return !inline && match ? (
-      <SyntaxHighlighter
-        style={vscDarkPlus}
-        language={match[1]}
-        PreTag="div"
-        className="rounded-lg"
-        {...props}
-      >
-        {String(children).replace(/\n$/, '')}
-      </SyntaxHighlighter>
-    ) : (
-      <code
-        className="bg-orange-500/20 text-orange-300 px-1 py-0.5 rounded text-sm"
-        {...props}
-      >
-        {children}
-      </code>
-    );
-  },
-  h1: ({ children }) => (
-    <h1 className="text-3xl md:text-4xl font-bold text-white mb-6 mt-8">
-      {children}
-    </h1>
-  ),
-  h2: ({ children }) => (
-    <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 mt-8">
-      {children}
-    </h2>
-  ),
-  h3: ({ children }) => (
-    <h3 className="text-xl md:text-2xl font-bold text-orange-400 mb-3 mt-6">
-      {children}
-    </h3>
-  ),
-  p: ({ children }) => (
-    <p className="text-gray-300 mb-4 leading-relaxed">{children}</p>
-  ),
-  ul: ({ children }) => (
-    <ul className="list-disc list-inside text-gray-300 mb-4 space-y-2">
-      {children}
-    </ul>
-  ),
-  ol: ({ children }) => (
-    <ol className="list-decimal list-inside text-gray-300 mb-4 space-y-2">
-      {children}
-    </ol>
-  ),
-  li: ({ children }) => <li className="text-gray-300">{children}</li>,
-  table: ({ children }) => (
-    <div className="overflow-x-auto mb-6">
-      <table className="w-full border-collapse border border-orange-400/30 rounded-lg">
-        {children}
-      </table>
-    </div>
-  ),
-  th: ({ children }) => (
-    <th className="border border-orange-400/30 bg-orange-500/20 text-orange-300 p-3 text-left font-semibold">
-      {children}
-    </th>
-  ),
-  td: ({ children }) => (
-    <td className="border border-orange-400/30 text-gray-300 p-3">
-      {children}
-    </td>
-  ),
-  blockquote: ({ children }) => (
-    <blockquote className="border-l-4 border-orange-400 bg-orange-500/10 p-4 my-4 italic text-gray-300">
-      {children}
-    </blockquote>
-  ),
-  strong: ({ children }) => (
-    <strong className="text-orange-400 font-semibold">{children}</strong>
-  ),
-  hr: () => <hr className="border-orange-400/30 my-8" />,
-};
-
 const BlogPost = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -1425,82 +1458,73 @@ const BlogPost = () => {
         <div className="relative pt-32 pb-20">
           <div className="container mx-auto px-6">
             {/* Back Button */}
-            <AnimatedSection>
-              <button
-                onClick={() => navigate('/blog')}
-                className="inline-flex items-center text-orange-400 hover:text-orange-300 transition-colors mb-8"
+            <button
+              onClick={() => navigate('/blog')}
+              className="inline-flex items-center text-orange-400 hover:text-orange-300 transition-colors mb-8"
+            >
+              <svg
+                className="w-5 h-5 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                <svg
-                  className="w-5 h-5 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
-                Back to Blog
-              </button>
-            </AnimatedSection>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+              Back to Blog
+            </button>
 
             <div className="max-w-4xl mx-auto">
               {/* Article Header */}
-              <AnimatedSection delay={0.1}>
-                <div className="mb-12">
-                  <div className="flex items-center gap-4 mb-6">
-                    <span className="px-3 py-1 bg-orange-500/20 text-orange-400 text-sm rounded-full">
-                      {post.category}
-                    </span>
-                    <span className="text-gray-400 text-sm">
-                      {post.readTime}
-                    </span>
-                  </div>
-
-                  <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-orange-400 via-yellow-400 to-orange-500 bg-clip-text text-transparent mb-6">
-                    {post.title}
-                  </h1>
-
-                  <div className="flex items-center justify-between text-gray-400 mb-8">
-                    <span>By {post.author}</span>
-                    <span>{format(post.date, 'MMMM dd, yyyy')}</span>
-                  </div>
-
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="w-full h-64 md:h-96 object-cover rounded-2xl"
-                  />
+              <div className="mb-12">
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="px-3 py-1 bg-orange-500/20 text-orange-400 text-sm rounded-full">
+                    {post.category}
+                  </span>
+                  <span className="text-gray-400 text-sm">
+                    {post.readTime}
+                  </span>
                 </div>
-              </AnimatedSection>
+
+                <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-orange-400 via-yellow-400 to-orange-500 bg-clip-text text-transparent mb-6">
+                  {post.title}
+                </h1>
+
+                <div className="flex items-center justify-between text-gray-400 mb-8">
+                  <span>By {post.author}</span>
+                  <span>{format(post.date, 'MMMM dd, yyyy')}</span>
+                </div>
+
+                <img
+                  src={post.image}
+                  alt={post.title}
+                  className="w-full h-64 md:h-96 object-cover rounded-2xl"
+                />
+              </div>
 
               {/* Article Content */}
-              <AnimatedSection delay={0.2}>
-                <div className="prose prose-lg max-w-none bg-white/5 backdrop-blur-sm border border-orange-400/20 rounded-2xl p-8 md:p-12">
-                  <ReactMarkdown components={MarkdownComponents}>
-                    {post.content}
-                  </ReactMarkdown>
-                </div>
-              </AnimatedSection>
+              <div className="prose prose-lg max-w-none bg-white/5 backdrop-blur-sm border border-orange-400/20 rounded-2xl p-8 md:p-12">
+                <MarkdownRenderer content={post.content} />
+              </div>
 
               {/* Article Footer */}
-              <AnimatedSection delay={0.3}>
-                <div className="mt-12 pt-8 border-t border-orange-400/20">
-                  <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-                    <div className="text-center md:text-left">
-                      <p className="text-gray-300 mb-2">
-                        Enjoyed this article?
-                      </p>
-                      <Link
-                        to="/contact"
-                        className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-500 to-yellow-500 text-white rounded-lg hover:from-orange-600 hover:to-yellow-600 transition-all duration-300"
-                      >
-                        Get in Touch
-                      </Link>
-                    </div>
+              <div className="mt-12 pt-8 border-t border-orange-400/20">
+                <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+                  <div className="text-center md:text-left">
+                    <p className="text-gray-300 mb-2">
+                      Enjoyed this article?
+                    </p>
+                    <Link
+                      to="/contact"
+                      className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-500 to-yellow-500 text-white rounded-lg hover:from-orange-600 hover:to-yellow-600 transition-all duration-300"
+                    >
+                      Get in Touch
+                    </Link>
+                  </div>
 
                     <div className="flex gap-4">
                       <button className="p-3 bg-white/10 border border-orange-400/30 rounded-lg hover:bg-white/20 transition-all duration-300">
@@ -1524,7 +1548,6 @@ const BlogPost = () => {
                     </div>
                   </div>
                 </div>
-              </AnimatedSection>
             </div>
           </div>
         </div>

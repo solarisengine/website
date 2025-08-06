@@ -33,6 +33,8 @@ export default function ContactSection() {
     setStatusType('');
 
     try {
+      console.log('Submitting form with data:', form);
+      
       // Use your secure backend API
       const response = await fetch('/api/contact', {
         method: 'POST',
@@ -43,17 +45,23 @@ export default function ContactSection() {
         body: JSON.stringify(form),
       });
 
+      console.log('Response status:', response.status);
+      
       if (response.ok) {
+        const result = await response.json();
+        console.log('Success response:', result);
         setStatus('Thank you! Your message has been sent.');
         setStatusType('success');
         setForm({ name: '', email: '', company: '', details: '' });
       } else {
-        setStatus('Something went wrong. Please try again.');
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Error response:', errorData);
+        setStatus(errorData.message || 'Something went wrong. Please try again.');
         setStatusType('error');
       }
     } catch (error) {
       console.error('Contact form error:', error);
-      setStatus('Something went wrong. Please try again.');
+      setStatus('Network error. Please check your connection and try again.');
       setStatusType('error');
     }
     setIsSubmitting(false);
