@@ -6,12 +6,12 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "build": "cd client && npm install && npm run build",
+    "build": "cd client && npm install --legacy-peer-deps && npm run build",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "node server.js",
     "client": "cd client && npm run dev",
-    "ic": "cd client && npm install",
-    "ia": "npm install && cd client && npm install"
+    "ic": "cd client && npm install --legacy-peer-deps",
+    "ia": "npm install && cd client && npm install --legacy-peer-deps"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.7.0",
