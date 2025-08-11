@@ -11,13 +11,13 @@ export default function Navbar({ handleSmoothScroll }) {
       <div className="container mx-auto flex items-center justify-between">
         <Link
           to="/"
-          className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent tracking-wider"
-          style={{
-            fontFamily: "'ProggyClean Nerd Font', 'monospace'",
-            letterSpacing: '0.08em',
-          }}
-        >
-          Solaris Engine
+            className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent tracking-wider"
+            style={{
+              fontFamily: "'ProggyClean Nerd Font', 'monospace'",
+              letterSpacing: '0.08em',
+            }}
+          >
+            Solaris Engine
         </Link>
         {/* Desktop links */}
         {isHome ? (

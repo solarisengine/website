@@ -3,7 +3,7 @@ export default function AboutUs() {
     {
       initials: 'GA',
       name: 'Gabriel Alonso',
-      title: 'Co-Founder & Lead Developer',
+      title: 'Co-Founder & Automation Lead',
       description:
         'Gabriel specializes in building interactive systems and automation tools that bridge technical complexity with practical impact. With a background in game development, he brings creativity and precision to every solution.',
     },
@@ -15,18 +15,18 @@ export default function AboutUs() {
         'Casey brings 20 years of experience in high-stakes environments. He leads operations and strategy with precision, supporting execution, infrastructure, and sales growth with deep AI fluency.',
     },
     {
+      initials: 'BA',
+      name: 'Bruno Araujo',
+      title: 'Co-Founder, Lead Developer',
+      description:
+        "Bruno brings over a decade of experience delivering scalable, reliable software solutions. As both an engineer and educator, he's passionate about creating systems that are not only powerful, but easy to understand and maintain.",
+    },
+    {
       initials: 'AA',
-      name: 'Alini Alonso',
+      name: 'Alini Yoshida',
       title: 'Head of Growth & Content Strategy',
       description:
         'With a background in journalism and 7 years in digital marketing, Alini brings sharp insight into SEO, copywriting, and content strategy. She blends data-driven analysis with creative leadership to drive sustainable growth and innovative brand presence.',
-    },
-    {
-      initials: 'BA',
-      name: 'Bruno Araujo',
-      title: 'Software Engineer',
-      description:
-        "Bruno brings over a decade of experience delivering scalable, reliable software solutions. As both an engineer and educator, he's passionate about creating systems that are not only powerful, but easy to understand and maintain.",
     },
   ];
 
